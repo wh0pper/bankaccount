@@ -1,8 +1,10 @@
 //back-end logic
-function newAccount(name, accountType, balance) {
+function newAccount(name, accountType, balance, history) {
   this.name = name;
   this.accountType = accountType;
   this.balance = balance;
+  this.depositHistory = [];
+  this.withdrawalHistory = [];
 }
 
 newAccount.prototype.transact = function(deposit, withdrawal) {
@@ -20,6 +22,12 @@ newAccount.prototype.transact = function(deposit, withdrawal) {
 
 
 
+var addCommas = function(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
+var account = {};
 
 
 //front-end logic
@@ -34,8 +42,21 @@ $(document).ready(function() {
 
     $("#balanceName").text(accountName);
     $("#typeOutput").text(accountType);
-    $("#currentBalance").text(initialDeposit);
+    $("#currentBalance").text(addCommas(account.balance));
+
+    //hide this form
+    $("#newAccount").slideUp();
+
+    //show transaction form
+    $("#fundsForm").slideDown();
+
+    //show account info
+    $(".balance").show();
   });
+
+  $("#newHead").click(function() {
+      $("#newAccount").slideToggle();
+  })
 
   $("#fundsForm").submit(function(event) {
     event.preventDefault();
@@ -43,6 +64,29 @@ $(document).ready(function() {
     var withdrawal = parseInt($("input#withdrawal").val());
 
     account.transact(deposit, withdrawal);
-    $("#currentBalance").text(account.balance);
+    $("#currentBalance").text(addCommas(account.balance));
+
+    if (deposit) {
+    account.depositHistory.push(deposit);
+    }
+    if (withdrawal) {
+    account.withdrawalHistory.push(withdrawal);
+
+    }
+
+    //clear input field on sumbit
+    $("input#deposit").val("");
+    $("input#withdrawal").val("");
+  });
+
+  $("button#history").click(function() {
+    $("div.history").slideToggle();
+    $("#deposits").text("");
+    account.depositHistory.forEach(function(deposit) {
+      $("#deposits").append("$" + addCommas(deposit) + ", ");
+    })
+    account.withdrawalHistory.forEach(function(withdrawal) {
+      $("#withdrawals").append("$" + addCommas(withdrawal) + ", ");
+    })
   });
 });
