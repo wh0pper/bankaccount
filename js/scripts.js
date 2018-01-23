@@ -1,6 +1,7 @@
 //back-end logic
-function newAccount(name, balance) {
+function newAccount(name, accountType, balance) {
   this.name = name;
+  this.accountType = accountType;
   this.balance = balance;
 }
 
@@ -27,10 +28,12 @@ $(document).ready(function() {
     event.preventDefault();
     var accountName = $("input#accountName").val();
     var initialDeposit = parseInt($("input#initialDeposit").val());
+    var accountType = $("select#accountType").val();
 
-    account = new newAccount(accountName, initialDeposit);
+    account = new newAccount(accountName, accountType, initialDeposit);
 
     $("#balanceName").text(accountName);
+    $("#typeOutput").text(accountType);
     $("#currentBalance").text(initialDeposit);
   });
 

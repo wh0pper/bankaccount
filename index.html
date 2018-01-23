@@ -19,6 +19,15 @@
           <input type="text" class="form-control" id="accountName">
         </div>
         <div class="form-group">
+          <label for="accountType">Select an account: </label>
+          <select class="form-control" id="accountType">
+            <option value="checking">Checking</option>
+            <option value="savings">Savings</option>
+            <option value="credit">Credit</option>
+          </select>
+        </div>
+
+        <div class="form-group">
           <label for="initial">Initial Deposit: </label>
           <input type="number" class="form-control" id="initialDeposit">
         </div>
@@ -41,6 +50,7 @@
       <div class="balance">
         <h3>Account Info:</h3>
         <p>Account Name: <span id="balanceName"></span></p>
+        <p>Account Type: <span id="typeOutput"></span></p>
         <p>Account Balance: <span id="currentBalance"></span></p>
       </div>
     </div>
